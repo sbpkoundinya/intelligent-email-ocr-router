@@ -1,0 +1,52 @@
+[
+    {
+        "test_id": 1,
+        "subject": "Request for foreclosure letter",
+        "body": "Please send me the foreclosure statement for my loan account.",
+        "has_attachment": false,
+        "priority_source": "Email Body",
+        "expected_request_type": "Loan Service Request",
+        "expected_sub_request_type": "Foreclosure Letter",
+        "expected_routing": "Loan Operations Team"
+    },
+    {
+        "test_id": 2,
+        "subject": "Attached my interest certificate request",
+        "body": "Please find the request in the attached file.",
+        "has_attachment": true,
+        "priority_source": "Attachment",
+        "expected_request_type": "Loan Service Request",
+        "expected_sub_request_type": "Interest Certificate",
+        "expected_routing": "Loan Documentation Team"
+    },
+    {
+        "test_id": 3,
+        "subject": "Duplicate request for loan amortization schedule",
+        "body": "I already sent this last week. Kindly respond.",
+        "has_attachment": false,
+        "priority_source": "Email Body",
+        "expected_request_type": "Loan Service Request",
+        "expected_sub_request_type": "Amortization Schedule",
+        "expected_routing": "Loan Support Team"
+    },
+    {
+        "test_id": 4,
+        "subject": "Disbursement issues",
+        "body": "The loan amount has not yet been credited. See attached docs.",
+        "has_attachment": true,
+        "priority_source": "Both",
+        "expected_request_type": "Disbursement Request",
+        "expected_sub_request_type": "Loan Not Disbursed",
+        "expected_routing": "Disbursement Desk"
+    },
+    {
+        "test_id": 5,
+        "subject": "Loan Account statement",
+        "body": "I want to download the loan account statement from Jan to Dec.",
+        "has_attachment": false,
+        "priority_source": "Email Body",
+        "expected_request_type": "Loan Statement Request",
+        "expected_sub_request_type": "Account Statement",
+        "expected_routing": "Statements Processing Team"
+    }
+]

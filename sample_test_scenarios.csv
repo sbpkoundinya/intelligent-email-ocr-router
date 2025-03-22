@@ -1,0 +1,6 @@
+test_id,subject,body,has_attachment,priority_source,expected_request_type,expected_sub_request_type,expected_routing
+1,Request for foreclosure letter,Please send me the foreclosure statement for my loan account.,False,Email Body,Loan Service Request,Foreclosure Letter,Loan Operations Team
+2,Attached my interest certificate request,Please find the request in the attached file.,True,Attachment,Loan Service Request,Interest Certificate,Loan Documentation Team
+3,Duplicate request for loan amortization schedule,I already sent this last week. Kindly respond.,False,Email Body,Loan Service Request,Amortization Schedule,Loan Support Team
+4,Disbursement issues,The loan amount has not yet been credited. See attached docs.,True,Both,Disbursement Request,Loan Not Disbursed,Disbursement Desk
+5,Loan Account statement,I want to download the loan account statement from Jan to Dec.,False,Email Body,Loan Statement Request,Account Statement,Statements Processing Team
