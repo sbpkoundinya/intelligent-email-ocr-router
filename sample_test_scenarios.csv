@@ -1,0 +1,3 @@
+Subject,Body,Has_Attachment,Priority_Source,Expected_Request_Type,Expected_Sub_Request_Type
+Request for loan statement,Please provide loan statement,false,Email Body,Account Statement,Loan Statement
+Foreclosure Request,Check attached,true,Attachment,Loan Closure,Foreclosure

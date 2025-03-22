@@ -1,0 +1,14 @@
+[
+  {
+    "subject": "Request for loan statement",
+    "body": "Please provide the loan statement for March",
+    "has_attachment": false,
+    "priority_source": "Email Body"
+  },
+  {
+    "subject": "Foreclosure Request",
+    "body": "Check attached for foreclosure details",
+    "has_attachment": true,
+    "priority_source": "Attachment"
+  }
+]
