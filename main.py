@@ -1,5 +1,6 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
+from eml_parser import parse_eml, perform_ocr_on_images
 from typing import List, Dict, Optional
 
 app = FastAPI()
@@ -39,6 +40,22 @@ def classify_email(email_body: str, has_attachment: bool) -> Dict:
         "Duplicate Detection": duplicate_detection,
         "Next Steps Guidance": guidance or ["No specific guidance available."]
     }
+
+@app.post("/process_email")
+async def process_email(file: UploadFile = File(...)):
+    with open("temp_email.eml", "wb") as f:
+        f.write(await file.read())
+    
+    body, attachments = parse_eml("temp_email.eml")
+    ocr_results = perform_ocr_on_images(attachments)
+    
+    email_content = {
+        "body": body,
+        "attachments": ocr_results
+    }
+    
+    # Integrate with the classification and routing model here
+    return {"email_content": email_content, "message": "Processed successfully"}
 
 @app.post("/classify")
 def classify(email_request: EmailRequest):
