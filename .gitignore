@@ -1,14 +1,2 @@
-__pycache__/
 *.pyc
-*.pyo
-.env
-venv/
-dist/
-build/
-*.log
-.DS_Store
-.idea/
-.vscode/
-__init__.py
-coverage/
-*.sqlite3
+__pycache__/

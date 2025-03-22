@@ -1,4 +1,4 @@
+flask
 fastapi
-uvicorn
-pydantic
-pytest
+transformers
+elasticsearch
