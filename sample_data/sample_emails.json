@@ -1,0 +1,37 @@
+{
+    "test_cases": [
+        {
+            "email_body": "I need information about interest rates for home loans.",
+            "has_attachment": false,
+            "expected_output": {
+                "Predicted Request Types": ["Loan Inquiry"],
+                "Predicted Sub-Request Types": ["General Inquiry"],
+                "Priority Source": "Body",
+                "Duplicate Detection": "Not Flagged",
+                "Next Steps Guidance": ["Review loan application portal"]
+            }
+        },
+        {
+            "email_body": "Please find the attached document regarding my loan application.",
+            "has_attachment": true,
+            "expected_output": {
+                "Predicted Request Types": ["Loan Inquiry"],
+                "Predicted Sub-Request Types": ["Application Status"],
+                "Priority Source": "Attachment",
+                "Duplicate Detection": "Not Flagged",
+                "Next Steps Guidance": ["Review loan application portal"]
+            }
+        },
+        {
+            "email_body": "I am reporting an unauthorized transaction on my credit card.",
+            "has_attachment": false,
+            "expected_output": {
+                "Predicted Request Types": ["Fraud Alert"],
+                "Predicted Sub-Request Types": ["Unauthorized Transaction"],
+                "Priority Source": "Body",
+                "Duplicate Detection": "Not Flagged",
+                "Next Steps Guidance": ["Verify transaction history and contact support"]
+            }
+        }
+    ]
+}
