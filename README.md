@@ -132,7 +132,14 @@ Automated test cases cover different **request-sub-request** classifications. Th
 pytest tests/test_classification.py
 ```
 
-## 10. Future Enhancements
+## 10. Sample `.eml` Files
+The package includes sample `.eml` files for all request & sub-request types, located in the `sample_emails/` directory.
+- Each file corresponds to a specific **request & sub-request type**
+- Some files include **attachments** when necessary (e.g., Closing & Notice cases)
+- The test suite automatically verifies classification accuracy using these samples
+
+
+## 11. Future Enhancements
 - Support for multilingual email processing
 - Integration with additional financial systems
 - Improved NLP models for better classification accuracy
