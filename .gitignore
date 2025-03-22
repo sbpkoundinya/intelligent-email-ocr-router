@@ -1,8 +1,14 @@
 __pycache__/
 *.pyc
 *.pyo
-*.pyd
 .env
-*.joblib
+venv/
+dist/
+build/
 *.log
 .DS_Store
+.idea/
+.vscode/
+__init__.py
+coverage/
+*.sqlite3
