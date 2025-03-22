@@ -28,7 +28,7 @@ This project provides an AI-powered backend service to classify and extract data
 ### Setup
 Clone the repository:
 ```bash
-git clone https://github.com/your-repo/email-classifier.git
+git clone https://github.com/sbpkoundinya/intelligent-email-ocr-router.git
 cd email-classifier
 ```
 
