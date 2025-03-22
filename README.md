@@ -9,15 +9,15 @@ This project provides an AI-powered backend service to classify and extract data
 - Duplicate detection
 - Next-step guidance
 
-## Sequence Diagram
-![image](https://github.com/user-attachments/assets/ebd1f90b-5888-46e0-a662-b61cd99f6955)
-
 ## Features
 - Uses **OpenAI, Tesseract, and FastAPI**
 - Accepts emails and attachments
 - Prioritizes email body or attachment based on context
 - Provides confidence scores and recommended actions
 - Deployable with **Docker** and integrates with **CI/CD**
+
+## Sequence Diagram
+![image](https://github.com/user-attachments/assets/ebd1f90b-5888-46e0-a662-b61cd99f6955)
 
 ## Installation
 ### Prerequisites
