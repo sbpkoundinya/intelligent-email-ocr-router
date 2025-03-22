@@ -9,8 +9,8 @@ This project provides an AI-powered backend service to classify and extract data
 - Duplicate detection
 - Next-step guidance
 
-## Architecture
-![Architecture Diagram](architecture.png)
+## Sequence Diagram
+![image](https://github.com/user-attachments/assets/ebd1f90b-5888-46e0-a662-b61cd99f6955)
 
 ## Features
 - Uses **OpenAI, Tesseract, and FastAPI**
