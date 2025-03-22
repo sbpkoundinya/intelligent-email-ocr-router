@@ -1,1 +1,1 @@
-Dummy content for requirements.txt
+Placeholder content for requirements.txt
