@@ -1,72 +1,113 @@
+import email
+from email import policy
+from email.parser import BytesParser
+import pytesseract
+from PIL import Image
+import io
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
-from eml_parser import parse_eml, perform_ocr_on_images
-from typing import List, Dict, Optional
+from typing import List, Optional, Dict
 
+# Initialize FastAPI app
 app = FastAPI()
 
-# Sample request model
+# Define Pydantic model for email content input
 class EmailRequest(BaseModel):
     email_body: str
     has_attachment: bool
 
-# Placeholder for AI model logic
-def classify_email(email_body: str, has_attachment: bool) -> Dict:
-    # Mock classification logic
-    if "loan" in email_body.lower():
-        request_type = "Loan Inquiry"
-        sub_request_type = "Application Status" if "application" in email_body.lower() else "General Inquiry"
-    elif "transaction" in email_body.lower():
-        request_type = "Fraud Alert"
-        sub_request_type = "Unauthorized Transaction"
-    else:
-        request_type = None
-        sub_request_type = None
+# Function to parse .eml files and extract content
+def parse_eml(file_path: str):
+    with open(file_path, 'rb') as f:
+        msg = BytesParser(policy=policy.default).parse(f)
+    
+    body = msg.get_body(preferencelist=('plain', 'html')).get_content()
+    
+    attachments = []
+    for part in msg.iter_attachments():
+        filename = part.get_filename()
+        content_type = part.get_content_type()
+        content = part.get_payload(decode=True)
+        attachments.append({
+            'filename': filename,
+            'content_type': content_type,
+            'content': content
+        })
+    
+    return body, attachments
 
-    priority_source = "Body" if not has_attachment else "Attachment"
-    duplicate_detection = "Not Flagged"  # Placeholder logic
+# Function to perform OCR on image attachments (if any)
+def perform_ocr_on_images(attachments):
+    ocr_results = []
+    for attachment in attachments:
+        if attachment['content_type'].startswith('image'):
+            image_data = io.BytesIO(attachment['content'])
+            image = Image.open(image_data)
+            text = pytesseract.image_to_string(image)
+            ocr_results.append({
+                'filename': attachment['filename'],
+                'ocr_text': text
+            })
+    return ocr_results
 
-    # Mock next steps guidance
-    guidance = []
-    if request_type == "Loan Inquiry":
-        guidance.append("Review loan application portal")
-    elif request_type == "Fraud Alert":
-        guidance.append("Verify transaction history and contact support")
+# Placeholder function for email classification logic
+def classify_email(email_content):
+    # Placeholder classification logic based on email body
+    body = email_content['body']
+    has_attachment = len(email_content['attachments']) > 0
+    
+    request_type = "General Inquiry" if "query" in body.lower() else "Other"
+    sub_request_type = "Account" if "account" in body.lower() else "Service"
+    priority_source = "Attachment" if has_attachment else "Email"
+    duplicate_detection = "Not Flagged"  # This would be implemented in your system
 
     return {
-        "Predicted Request Types": [request_type] if request_type else [],
-        "Predicted Sub-Request Types": [sub_request_type] if sub_request_type else [],
-        "Priority Source": priority_source,
-        "Duplicate Detection": duplicate_detection,
-        "Next Steps Guidance": guidance or ["No specific guidance available."]
+        "request_type": request_type,
+        "sub_request_type": sub_request_type,
+        "priority_source": priority_source,
+        "duplicate_detection": duplicate_detection
     }
 
+# Endpoint to handle email content via JSON input
 @app.post("/process_email")
-async def process_email(file: UploadFile = File(...)):
-    with open("temp_email.eml", "wb") as f:
+async def process_email(request: EmailRequest):
+    # Process the email with the provided body and attachment flag
+    email_content = {
+        "body": request.email_body,
+        "attachments": [] if not request.has_attachment else ["Attachment placeholder"]
+    }
+
+    # Classify the email
+    classification_result = classify_email(email_content)
+
+    return {"classification_result": classification_result, "message": "Email processed successfully"}
+
+# Endpoint to upload and process .eml file
+@app.post("/upload_eml")
+async def upload_eml(file: UploadFile = File(...)):
+    # Save the uploaded .eml file temporarily
+    file_path = "temp_email.eml"
+    with open(file_path, "wb") as f:
         f.write(await file.read())
-    
-    body, attachments = parse_eml("temp_email.eml")
+
+    # Parse the .eml file to extract content
+    body, attachments = parse_eml(file_path)
+
+    # Perform OCR on image attachments
     ocr_results = perform_ocr_on_images(attachments)
-    
+
+    # Combine email content and OCR results
     email_content = {
         "body": body,
         "attachments": ocr_results
     }
-    
-    # Integrate with the classification and routing model here
-    return {"email_content": email_content, "message": "Processed successfully"}
 
-@app.post("/classify")
-def classify(email_request: EmailRequest):
-    if not email_request.email_body.strip():
-        return {
-            "Predicted Request Types": [],
-            "Predicted Sub-Request Types": [],
-            "Priority Source": "None",
-            "Duplicate Detection": "Not Applicable",
-            "Next Steps Guidance": ["No specific guidance available."]
-        }
-    
-    result = classify_email(email_request.email_body, email_request.has_attachment)
-    return result
+    # Classify the email
+    classification_result = classify_email(email_content)
+
+    return {
+        "classification_result": classification_result,
+        "email_body": body,
+        "ocr_results": ocr_results,
+        "message": "EML file processed successfully"
+    }
