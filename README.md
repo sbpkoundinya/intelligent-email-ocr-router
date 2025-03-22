@@ -29,7 +29,7 @@ This project provides an AI-powered backend service to classify and extract data
 Clone the repository:
 ```bash
 git clone https://github.com/sbpkoundinya/intelligent-email-ocr-router.git
-cd email-classifier
+cd intelligent-email-ocr-router
 ```
 
 Install dependencies:
@@ -44,8 +44,8 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 
 ### Run in Docker
 ```bash
-docker build -t email-classifier .
-docker run -p 8000:8000 email-classifier
+docker build -t intelligent-email-ocr-router .
+docker run -p 8000:8000 intelligent-email-ocr-router
 ```
 
 ## API Endpoints
